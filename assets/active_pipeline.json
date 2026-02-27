@@ -1,0 +1,32 @@
+{
+    "children": [
+        {
+            "id": "Camera_Source",
+            "inputs": [],
+            "outputs": [
+                "Camera_Source_out"
+            ],
+            "type": "Sensor"
+        },
+        {
+            "id": "Filter_4",
+            "inputs": [
+                "Camera_Source_out"
+            ],
+            "outputs": [
+                "Filter_4_out"
+            ],
+            "type": "Filter"
+        },
+        {
+            "id": "CustomAI_8",
+            "inputs": [
+                "Camera_Source_out"
+            ],
+            "outputs": [
+                "CustomAI_8_out"
+            ],
+            "type": "CustomAI"
+        }
+    ]
+}
