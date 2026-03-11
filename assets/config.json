@@ -1,0 +1,8 @@
+{
+    "auto_load": true,
+    "editor_file": "../assets/ui_layout.json",
+    "global_log_level": "DEBUG",
+    "imgui_ini_file": "../assets/imgui.ini",
+    "pipeline_config": "../assets/active_pipeline.json",
+    "pipeline_layout": "../assets/active_pipeline.layout.json"
+}

@@ -1,0 +1,24 @@
+BasedOnStyle: Google
+Language: Cpp
+Standard: c++20
+
+# 自动推导指针星号位置（Google 规范是 char* c，紧贴类型）
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# 允许短函数写在同一行
+AllowShortFunctionsOnASingleLine: Inline
+
+# 左大括号位置：附加到当前行
+BreakBeforeBraces: Attach
+
+# 缩进宽度
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+
+# 列宽限制
+ColumnLimit: 80
+
+# Include 排序
+SortIncludes: true

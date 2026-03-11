@@ -1,2 +1,15 @@
-third_party/
+# Build artifacts
 build/
+third_party/build/
+
+# Third-party source code stripping
+third_party/**/*.cpp
+
+# Keep third-party headers and build scripts
+!third_party/**/*.h
+!third_party/**/*.hpp
+!third_party/CMakeLists.txt
+
+# Keep prebuilt binaries
+!lib/
+!lib/*.so

@@ -1,32 +1,210 @@
 {
     "children": [
         {
-            "id": "Camera_Source",
-            "inputs": [],
-            "outputs": [
-                "Camera_Source_out"
+            "flow_links": [
+                "Loop_1.__flow_out"
             ],
-            "type": "Sensor"
+            "id": "ImageSource_2",
+            "inputs": {},
+            "outputs": [
+                "Image"
+            ],
+            "parameters": {},
+            "type": "ImageSource"
         },
         {
-            "id": "Filter_4",
-            "inputs": [
-                "Camera_Source_out"
+            "flow_links": [
+                "Condition_1.True"
             ],
+            "id": "ColorConverter",
+            "inputs": {
+                "Image_In": "ImageSource_2.Image"
+            },
             "outputs": [
-                "Filter_4_out"
+                "Gray_Out",
+                "HSV_Out"
             ],
-            "type": "Filter"
+            "parameters": {},
+            "type": "ColorConverter"
         },
         {
-            "id": "CustomAI_8",
-            "inputs": [
-                "Camera_Source_out"
-            ],
+            "id": "BoundingBoxDetector",
+            "inputs": {
+                "HSV_In": "ColorConverter.HSV_Out"
+            },
             "outputs": [
-                "CustomAI_8_out"
+                "BoundingBoxes",
+                "ObjectCount"
             ],
-            "type": "CustomAI"
+            "parameters": {},
+            "type": "BoundingBoxDetector"
+        },
+        {
+            "flow_links": [
+                "ImageSource_2.__flow_out"
+            ],
+            "id": "Condition_1",
+            "inputs": {},
+            "outputs": [],
+            "parameters": {
+                "condition_mode": "expression",
+                "expression": "$ImageSource_2.Image.empty()",
+                "target_node_id": "ImageSource_2"
+            },
+            "type": "Condition"
+        },
+        {
+            "id": "Generate_1",
+            "inputs": {},
+            "outputs": [
+                "data_out"
+            ],
+            "parameters": {
+                "data_type": "int_array",
+                "double_array_value": [
+                    0.0
+                ],
+                "double_value": 0.0,
+                "float_array_value": [
+                    0.0
+                ],
+                "float_value": 0.0,
+                "int_array_value": [
+                    3,
+                    -1
+                ],
+                "int_value": 0,
+                "string_array_value": [
+                    ""
+                ],
+                "string_value": ""
+            },
+            "type": "Generate"
+        },
+        {
+            "children": [
+                {
+                    "id": "Condition_2",
+                    "inputs": {},
+                    "outputs": [],
+                    "parameters": {
+                        "condition_mode": "expression",
+                        "expression": "$Loop_1.item > 0",
+                        "target_node_id": "$Loop_1.item > 0"
+                    },
+                    "type": "Condition"
+                },
+                {
+                    "flow_links": [
+                        "Condition_2.True"
+                    ],
+                    "id": "Log_3",
+                    "inputs": {
+                        "data_in": "Loop_1.item"
+                    },
+                    "outputs": [],
+                    "parameters": {
+                        "log_level": "INFO",
+                        "postfix": " > 0",
+                        "prefix": ""
+                    },
+                    "type": "Log"
+                },
+                {
+                    "flow_links": [
+                        "Condition_2.False"
+                    ],
+                    "id": "Log_4",
+                    "inputs": {
+                        "data_in": "Loop_1.item"
+                    },
+                    "outputs": [],
+                    "parameters": {
+                        "log_level": "INFO",
+                        "postfix": " <= 0",
+                        "prefix": ""
+                    },
+                    "type": "Log"
+                }
+            ],
+            "dynamic_outputs": [
+                {
+                    "name": "out_vec_index",
+                    "source": "Loop_1.index"
+                },
+                {
+                    "name": "out_vec_item",
+                    "source": "Loop_1.item"
+                }
+            ],
+            "id": "Loop_1",
+            "inputs": {
+                "collection": "Generate_1.data_out"
+            },
+            "outputs": [
+                "item",
+                "index",
+                "out_vec_index",
+                "out_vec_item"
+            ],
+            "parameters": {
+                "expression": "",
+                "loop_mode": "for_each",
+                "max_iterations": 5,
+                "min_iterations": 0,
+                "step": 1
+            },
+            "type": "Loop"
+        },
+        {
+            "id": "UI_Display_5",
+            "inputs": {
+                "Display_Image": "EdgeDetector.Edges",
+                "Total_Count": "BoundingBoxDetector.ObjectCount"
+            },
+            "outputs": [],
+            "parameters": {},
+            "type": "UI_Display"
+        },
+        {
+            "id": "EdgeDetector",
+            "inputs": {
+                "Gray_In": "ColorConverter.Gray_Out"
+            },
+            "outputs": [
+                "Edges"
+            ],
+            "parameters": {
+                "Threshold1": 100,
+                "Threshold2": 200
+            },
+            "type": "EdgeDetector"
+        },
+        {
+            "id": "Log_2",
+            "inputs": {
+                "data_in": "Loop_1.out_vec_item"
+            },
+            "outputs": [],
+            "parameters": {
+                "log_level": "INFO",
+                "postfix": "",
+                "prefix": ""
+            },
+            "type": "Log"
+        },
+        {
+            "id": "Log_1",
+            "inputs": {
+                "data_in": "Loop_1.out_vec_index"
+            },
+            "outputs": [],
+            "parameters": {
+                "log_level": "INFO",
+                "postfix": "",
+                "prefix": ""
+            },
+            "type": "Log"
         }
     ]
 }
